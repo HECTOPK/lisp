@@ -12,49 +12,27 @@
 (define (prime? n)
   (= n (smallest-divisor n)))
 
-(define (timed-prime-test n)
-	(let (
-		(is-prime (start-prime-test n (runtime)))
-	))
-	(display n)
-	(newline)
-	(is-prime))
 
+(define (timed-prime-test n)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime)))
 
 (define (start-prime-test n start-time)
-	(let (
-		(is-prime (prime? n))
-	))
-	(if is-prime
-		(report-prime (- (runtime) start-time))
-		(report-not-prime)))
-	(is-prime)
+  (if (prime? n)
+      (report-prime (- (runtime) start-time))))
 
 (define (report-prime elapsed-time)
   (display " *** ")
   (display elapsed-time))
 
-(define (report-not-prime)
-  (display " not prime "))
+(define (search-for-primes cur max)
+
+  (newline)
+  (display (runtime))
+  (cond ((< cur max) 
+    (timed-prime-test cur)
+    (search-for-primes (+ cur 1) max))))
 
 
-(define (find-next n e)
-	(if (> e 0)
-		(
-			(if (timed-prime-test n))
-				(find-next (+ n 1) (- e 1))
-				(find-next (+ n 1) e)
-			)
-		)
-	)
-
-)
-
-(define (find-next-primes n)
-	(find-next n 3)
-
-)
-
-
-
-(find-next-primes 100)
+(search-for-primes 10000000000 10000000030)
