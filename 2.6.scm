@@ -11,8 +11,6 @@
 	(lambda (f) (lambda (x)  ((b f) ((a f) x)))) )
 
 
-func
-
 
 
 (define (pone x) (+ x 1))
