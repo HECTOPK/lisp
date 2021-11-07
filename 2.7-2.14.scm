@@ -11,7 +11,7 @@
                    (max p1 p2 p3 p4))))
 
 (define (cross-zero? x) 
- (and (>= (upper-bound x) 0) (<= (lower-bound) 0)))
+ (and (>= (upper-bound x) 0) (<= (lower-bound x) 0)))
 
 (define (div-interval x y)
   (if (cross-zero? y)
@@ -20,17 +20,42 @@
                 (make-interval (/ 1.0 (upper-bound y))
                                (/ 1.0 (lower-bound y))))))
 
+(define (make-interval a b) (cons a b))
+(define (upper-bound i) (cdr i))
+(define (lower-bound i) (car i))
+
 (define (sub-interval x y) 
   (make-interval (- (lower-bound y) (upper-bound x)) 
                  (- (upper-bound y) (lower-bound x))))
 
 
+(define (make-center-width c w)
+  (make-interval (- c w) (+ c w)))
+
+(define (center i)
+  (/ (+ (lower-bound i) (upper-bound i)) 2))
+
+(define (width i)
+  (/ (- (upper-bound i) (lower-bound i)) 2))
+
+(define (percent x) 
+  (* 100 (/ (width x) (center x))))
 
 
-(define (make-interval a b) (cons a b))
-(define (make-center-percent x r) (make-interval (- x (* x (/ r 100))) (+ x (* x (/ r 100)))))
-(define (upper-bound i) (car i))
-(define (lower-bound i) (cdr i))
-(define (percent i) 
-  ((let ((x (/ (+ (car i) (cdr i)) 2)))
-    (* 100 (/ (- (cdr i) x) x)))))
+(define (make-center-percent x r) (make-center-width x (* x (/ r 100))))
+
+
+(define A (make-center-percent 100 1))
+(define B (make-center-percent 200 2))
+
+(define AdivB (div-interval A B))
+(define AdivA (div-interval A A))
+
+AdivA
+AdivB
+
+(center AdivB)
+(percent AdivB)
+
+(center AdivA)
+(percent AdivA)
