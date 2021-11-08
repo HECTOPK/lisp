@@ -21,14 +21,14 @@
 	(accumulate + 0 (map * v w)))
 
 (define (matrix-*-vector m v)
-	(map dot-product (map (lambda (x y) v) m m) m))
+	(map dot-product (map (lambda (x) v) m) m))
 
 (define (transpose mat)
 	(accumulate-n cons nil mat))
 
 (define (matrix-*-matrix m n)
 	(let ((cols (transpose n)))
-		(map dot-product n m)))
+		(map (lambda (x) (matrix-*-vector cols x)) m)))
 
 
 (define m (list
