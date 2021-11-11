@@ -1,0 +1,6 @@
+(define (lookup k set)
+  (cond ((null? set) false)
+    ((equal? k (key set)) (val set))
+    ((< k (key set)) (lookup (left-branch set)))
+    (else (lookup (right-branch set)))
+  ))
